@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   setup.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/06/17 19:57:15 by jpelline         ###   ########.fr       */
+/*   Created: 2025/06/18 21:59:34 by jpelline          #+#    #+#             */
+/*   Updated: 2025/06/18 21:59:55 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+void	setup_philos(t_table *table)
 {
-	t_table	table;
-
-	if (ac == 5 || ac == 6)
-	{
-		parse_input(ac, av, &table);
-		setup_philos(&table);
-	}
-	else
-		print_help();
-	return (0);
+	(void)table;
 }

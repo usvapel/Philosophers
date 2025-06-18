@@ -42,7 +42,7 @@ RESET		:= $(shell tput sgr0)
 
 # ============================== SOURCE FILES ================================ #
 
-SRCS		:= main.c
+SRCS		:= main.c utility.c parsing.c setup.c
 
 # ============================== PROGRESS TRACKING =========================== #
 
