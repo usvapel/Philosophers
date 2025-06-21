@@ -12,6 +12,11 @@
 
 #include "philo.h"
 
+void	routine(t_table *table)
+{
+	
+}
+
 int	main(int ac, char **av)
 {
 	t_table	table;
@@ -20,6 +25,7 @@ int	main(int ac, char **av)
 	{
 		parse_input(ac, av, &table);
 		setup_philos(&table);
+		routine(&table);
 	}
 	else
 		print_help();

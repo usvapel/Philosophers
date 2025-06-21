@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <limits.h>
 
 void	print_help(void)
 {
@@ -50,9 +49,9 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (tmp);
 }
 
-static int	check_input(const char *nptr, int sign)
+static int	check_input(const char *nptr, bool negative)
 {
-	long result;
+	long	result;
 	int		digit;
 
 	result = 0;
@@ -60,9 +59,9 @@ static int	check_input(const char *nptr, int sign)
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		digit = *nptr - '0';
-		if (sign == 1 && result > (INT_MAX - digit) / 10)
+		if (negative == false && result > (INT_MAX - digit) / 10)
 			return (INT_MAX);
-		if (sign == -1 && result > (-(long)INT_MIN - digit) / 10)
+		if (negative == true && result > (-(long)INT_MIN - digit) / 10)
 			return (INT_MIN);
 		result = result * 10 + digit;
 		nptr++;
@@ -72,16 +71,16 @@ static int	check_input(const char *nptr, int sign)
 
 int	atoi_safe(const char *nptr)
 {
-	int		sign;
+	bool	negative;
 
-	sign = 1;
+	negative = false;
 	while (*nptr == ' ' || (*nptr >= '\a' && *nptr <= '\r'))
 		nptr++;
 	if (*nptr == '-' || *nptr == '+')
 	{
 		if (*nptr == '-')
-			sign = -1;
+			negative = true;
 		nptr++;
 	}
-	return (check_input(nptr, sign));
+	return (check_input(nptr, negative));
 }

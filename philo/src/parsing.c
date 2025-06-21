@@ -25,17 +25,12 @@ void	parse_input(int ac, char **av, t_table *table)
 		table->philos[i].time_to_eat   = atoi_safe(av[3]);
 		table->philos[i].time_to_sleep = atoi_safe(av[4]);
 		if (ac == 6)
+		{
+			table->philos[i].times_to_eat_validity = true;
 			table->philos[i].times_to_eat  = atoi_safe(av[5]);
-		i++;
-	}
-	i = 0;
-	while (i < table->number_of_philos)
-	{
-		printf("%d ", table->philos[i].time_to_die);
-		printf("%d ", table->philos[i].time_to_eat);
-		printf("%d ", table->philos[i].time_to_sleep);
-		printf("%d ", table->philos[i].times_to_eat);
-		printf("\n");
+		}
+		else
+			table->philos[i].times_to_eat_validity = false;
 		i++;
 	}
 }
