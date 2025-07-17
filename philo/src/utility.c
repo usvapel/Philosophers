@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 21:47:08 by jpelline          #+#    #+#             */
-/*   Updated: 2025/06/18 21:47:24 by jpelline         ###   ########.fr       */
+/*   Created: 2025/07/15 20:56:48 by jpelline          #+#    #+#             */
+/*   Updated: 2025/07/15 20:56:53 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_help(void)
 		="┌─────────────────────────────────────────────────────────────────┐\n"
 		"│                            Philosophers                         │\n"
 		"├─────────────────────────────────────────────────────────────────┤\n"
-		"│ Usage: ./philo <philosophers> <die> <eat> <sleep> [times_to_eat]│\n"
+		"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
 		"│                                                                 │\n"
 		"│ Arguments:                                                      │\n"
 		"│   philosophers - Number of philosophers (and forks)             │\n"
@@ -32,6 +32,16 @@ void	print_help(void)
 		"│ Example: ./philo 5 800 200 200 3                                │\n"
 		"└─────────────────────────────────────────────────────────────────┘\n";
 	printf("%s", help_text);
+}
+
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
@@ -49,7 +59,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (tmp);
 }
 
-static int	check_input(const char *nptr, bool negative)
+static int	check_input(const char *nptr, int sign)
 {
 	long	result;
 	int		digit;
@@ -59,9 +69,9 @@ static int	check_input(const char *nptr, bool negative)
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		digit = *nptr - '0';
-		if (negative == false && result > (INT_MAX - digit) / 10)
+		if (sign == 1 && result > (INT_MAX - digit) / 10)
 			return (INT_MAX);
-		if (negative == true && result > (-(long)INT_MIN - digit) / 10)
+		if (sign == -1 && result > (-(long)INT_MIN - digit) / 10)
 			return (INT_MIN);
 		result = result * 10 + digit;
 		nptr++;
@@ -71,16 +81,16 @@ static int	check_input(const char *nptr, bool negative)
 
 int	atoi_safe(const char *nptr)
 {
-	bool	negative;
+	int		sign;
 
-	negative = false;
+	sign = 1;
 	while (*nptr == ' ' || (*nptr >= '\a' && *nptr <= '\r'))
 		nptr++;
 	if (*nptr == '-' || *nptr == '+')
 	{
 		if (*nptr == '-')
-			negative = true;
+			sign = -1;
 		nptr++;
 	}
-	return (check_input(nptr, negative));
+	return (check_input(nptr, sign));
 }

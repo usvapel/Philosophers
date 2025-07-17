@@ -13,43 +13,59 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>
 # include <limits.h>
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdbool.h>
 # include <pthread.h>
+# include <stdatomic.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
 # include <sys/time.h>
+# include <unistd.h>
 
-typedef pthread_t		s_pthread;
-typedef s_pthread		t_pthread;
-typedef pthread_mutex_t	s_mutex;
-typedef s_mutex			t_mutex;
+typedef pthread_t		t_pthread;
+typedef pthread_mutex_t	t_mutex;
+typedef struct timeval	t_time;
+typedef struct s_philo	t_philo;
+typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	t_pthread	thread;
-	t_mutex 	lock;
-	int			left_fork;
-	int			right_fork;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			times_to_eat;
-	bool		times_to_eat_validity;
-}				t_philo;
+	pthread_t			thread;
+	t_mutex				left_fork;
+	atomic_int			right_fork;
+	atomic_int			time_to_die;
+	atomic_int			time_to_eat;
+	atomic_int			time_to_sleep;
+	atomic_int			times_to_eat;
+	bool				times_to_eat_validity;
+	atomic_int			number;
+	bool				has_eaten;
+	bool				has_slept;
+	bool				is_thinking;
+	bool				has_died;
+	pthread_mutex_t		write_lock;
+	pthread_mutex_t		dead_lock;
+	pthread_mutex_t		meal_lock;
+	t_table				*table;
+}						t_philo;
 
 typedef struct s_table
 {
-	int		number_of_philos;
-	t_philo	*philos;
-}			t_table;
+	int					number_of_philos;
+	int					ac;
+	t_time				start;
+	t_time				end;
+	char				**av;
+	t_philo				*philos;
+}						t_table;
 
-void		print_help(void);
-void		parse_input(int ac, char **av, t_table *table);
-void		setup_philos(t_table *table);
-int			atoi_safe(const char *nptr);
-void		*ft_calloc(size_t nmemb, size_t size);
-
+void					print_help(void);
+void					parse_input(t_table *table);
+void					setup_philos(t_table *table);
+void					*routine(void *param);
+int						atoi_safe(const char *nptr);
+void					*ft_calloc(size_t nmemb, size_t size);
+size_t					get_current_time(void);
+int						ft_usleep(size_t milliseconds);
 #endif // PHILO_H
