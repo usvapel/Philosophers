@@ -34,12 +34,12 @@ void	print_help(void)
 	printf("%s", help_text);
 }
 
-int	ft_usleep(size_t milliseconds)
+int	ft_usleep(size_t milliseconds, t_table *table)
 {
 	size_t	start;
 
-	start = get_current_time();
-	while ((get_current_time() - start) < milliseconds)
+	start = get_time(table);
+	while ((get_time(table) - start) < milliseconds)
 		usleep(500);
 	return (0);
 }

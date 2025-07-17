@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-long	get_time(t_table *table)
+size_t	get_time(t_table *table)
 {
 	long long	us;
 	long		ms;
@@ -29,6 +29,7 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->table->philos[philo->number].left_fork);
 	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
 	printf("%ld %d is eating\n", get_time(philo->table), philo->number);
+	ft_usleep(philo->time_to_eat, philo->table);
 	pthread_mutex_unlock(&philo->table->philos[philo->number].left_fork);
 	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
 }
@@ -42,7 +43,7 @@ void	*routine(void *param)
 	while (1)
 	{
 		eat(philo);
-		ft_usleep(1000);
+		ft_usleep(1000, philo->table);
 		// sleep(table);
 		// think(table);
 	}
