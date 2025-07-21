@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:56:54 by jpelline          #+#    #+#             */
-/*   Updated: 2025/06/18 21:57:28 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/22 02:13:22 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	parse_input(t_table *table)
 	i = 0;
 	while (i < table->number_of_philos)
 	{
+		table->philos[i].index = i;
 		table->philos[i].number = i + 1;
 		table->philos[i].table = table;
 		table->philos[i].time_to_die = atoi_safe(table->av[2]);

@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/06/16 20:54:07 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/22 02:13:32 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ typedef struct s_philo
 	atomic_int			times_to_eat;
 	bool				times_to_eat_validity;
 	atomic_int			number;
+	atomic_int			index;
 	bool				has_eaten;
 	bool				has_slept;
 	bool				is_thinking;
 	bool				has_died;
-	pthread_mutex_t		write_lock;
-	pthread_mutex_t		dead_lock;
-	pthread_mutex_t		meal_lock;
 	t_table				*table;
 }						t_philo;
 
@@ -57,6 +55,9 @@ typedef struct s_table
 	t_time				start;
 	t_time				end;
 	char				**av;
+	t_mutex				write_lock;
+	t_mutex				dead_lock;
+	t_mutex				meal_lock;
 	t_philo				*philos;
 }						t_table;
 
