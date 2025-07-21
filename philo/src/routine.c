@@ -24,13 +24,27 @@ size_t	get_time(t_table *table)
 	return (ms);
 }
 
-void	eat(t_philo *philo)
+void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->philos[philo->number].left_fork);
-	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
 	printf("%ld %d is eating\n", get_time(philo->table), philo->number);
 	ft_usleep(philo->time_to_eat, philo->table);
-	pthread_mutex_unlock(&philo->table->philos[philo->number].left_fork);
+	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
+}
+
+void	sleeping(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->philos[philo->number].left_fork);
+	printf("%ld %d is sleeping\n", get_time(philo->table), philo->number);
+	ft_usleep(philo->time_to_eat, philo->table);
+	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
+}
+
+void	thinking(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->philos[philo->number].left_fork);
+	printf("%ld %d is thinking\n", get_time(philo->table), philo->number);
+	ft_usleep(philo->time_to_eat, philo->table);
 	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
 }
 
@@ -42,10 +56,9 @@ void	*routine(void *param)
 	gettimeofday(&philo->table->start, NULL);
 	while (1)
 	{
-		eat(philo);
-		ft_usleep(1000, philo->table);
-		// sleep(table);
-		// think(table);
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
 	return (NULL);
 }

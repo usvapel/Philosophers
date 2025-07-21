@@ -68,4 +68,5 @@ int						atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
 size_t					get_time(t_table *table);
 int						ft_usleep(size_t milliseconds, t_table *table);
+
 #endif // PHILO_H
