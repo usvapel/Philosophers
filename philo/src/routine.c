@@ -12,6 +12,17 @@
 
 #include "philo.h"
 
+static int	philo_died(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->number_of_philos)
+		if (table->philos[i++].has_died ==  true)
+			return (0);
+	return (1);
+}
+
 size_t	get_time(t_table *table)
 {
 	long long	us;
@@ -27,11 +38,13 @@ size_t	get_time(t_table *table)
 void	eating(t_philo *philo)
 {
     pthread_mutex_lock(&philo->table->philos[philo->index].left_fork);
+	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
     pthread_mutex_lock(&philo->table->write_lock);
     printf("%ld %d is eating\n", get_time(philo->table), philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
     ft_usleep(philo->time_to_eat, philo->table);
     pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
+	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
 }
 
 void	sleeping(t_philo *philo)
@@ -47,7 +60,6 @@ void	thinking(t_philo *philo)
 	pthread_mutex_lock(&philo->table->write_lock);
 	printf("%ld %d is thinking\n", get_time(philo->table), philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
-	ft_usleep(0, philo->table);
 }
 
 void	*routine(void *param)
@@ -56,13 +68,12 @@ void	*routine(void *param)
 
 	philo = (t_philo *)param;
 	gettimeofday(&philo->table->start, NULL);
-	printf("philo: %d\n", philo->index);
-	usleep(1000);
 	while (1)
 	{
+		if (!philo_died(philo->table))
+			exit(1);
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
-	return (NULL);
 }

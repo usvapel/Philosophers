@@ -33,14 +33,14 @@ typedef struct s_philo
 {
 	pthread_t			thread;
 	t_mutex				left_fork;
+	atomic_int			number;
+	atomic_int			index;
 	atomic_int			right_fork;
 	atomic_int			time_to_die;
 	atomic_int			time_to_eat;
 	atomic_int			time_to_sleep;
 	atomic_int			times_to_eat;
 	bool				times_to_eat_validity;
-	atomic_int			number;
-	atomic_int			index;
 	bool				has_eaten;
 	bool				has_slept;
 	bool				is_thinking;
@@ -50,11 +50,11 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int					number_of_philos;
-	int					ac;
+	atomic_int			number_of_philos;
+	atomic_int			ac;
+	char				**av;
 	t_time				start;
 	t_time				end;
-	char				**av;
 	t_mutex				write_lock;
 	t_mutex				dead_lock;
 	t_mutex				meal_lock;

@@ -12,6 +12,39 @@
 
 #include "philo.h"
 
+static void	exit_simulation(t_table *table)
+{
+	int i;
+
+	i = 0;
+	while (i < table->number_of_philos)
+		pthread_join(table->philos[i++].thread, NULL);
+	i = 0;
+	while (i < table->number_of_philos)
+		pthread_mutex_destroy(&table->philos[i++].left_fork);
+	pthread_mutex_destroy(&table->write_lock);
+	pthread_mutex_destroy(&table->meal_lock);
+	pthread_mutex_destroy(&table->dead_lock);
+	free(table->philos);
+	exit(0);
+}
+
+static void monitor(t_table *table)
+{
+	int i;
+
+	while (true)
+	{
+		i = 0;
+		while (i < table->number_of_philos)
+		{
+			if (table->philos[i].has_died == true)
+				exit_simulation(table);
+			i++;
+		}
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_table	table;
@@ -22,6 +55,7 @@ int	main(int ac, char **av)
 		table.av = av;
 		parse_input(&table);
 		setup_philos(&table);
+		monitor(&table);
 	}
 	else
 		print_help();
