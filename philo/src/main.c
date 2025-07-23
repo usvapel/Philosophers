@@ -39,7 +39,10 @@ static void monitor(t_table *table)
 		while (i < table->number_of_philos)
 		{
 			if (table->philos[i].has_died == true)
+			{
+				printf("%d died", table->philos[i].index);
 				exit_simulation(table);
+			}
 			i++;
 		}
 	}

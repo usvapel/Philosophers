@@ -23,6 +23,13 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+# define WHITE   "\001\x1b[38;5;231m\002"  // Bright White
+# define GREEN   "\001\x1b[38;5;82m\002"   // Readable Green
+# define RED     "\001\x1b[38;5;196m\002"  // Bright Red
+# define BLUE    "\001\x1b[38;5;75m\002"   // Readable Blue
+# define YELLOW  "\001\x1b[38;5;226m\002"  // Bright Yellow
+# define RESET   "\001\x1b[0m\002"         // Reset to default
+
 typedef pthread_t		t_pthread;
 typedef pthread_mutex_t	t_mutex;
 typedef struct timeval	t_time;
