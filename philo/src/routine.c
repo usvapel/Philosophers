@@ -42,7 +42,17 @@ void	eating(t_philo *philo)
 	pthread_mutex_lock(&philo->table->meal_lock);
 	time = get_time(philo->table);
 	pthread_mutex_lock(&philo->table->philos[philo->index].left_fork);
+	printf(RESET"%-5ld %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
+	if (philo->table->number_of_philos == 1)
+	{
+		ft_usleep(philo->time_to_die, philo->table);
+		philo->has_died = true;
+		pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
+		pthread_mutex_unlock(&philo->table->meal_lock);
+		exit(1);
+	}
 	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
+	printf(RESET"%-5ld %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
 	pthread_mutex_lock(&philo->table->write_lock);
 	printf(RESET"%-5ld %d "GREEN"is eating\n"RESET, get_time(philo->table), philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
@@ -81,12 +91,12 @@ void	*routine(void *param)
 	{
 		if (!philo_died(philo->table))
 			exit(1);
+		thinking(philo);
+		if (!philo_died(philo->table))
+			exit(1);
 		eating(philo);
 		if (!philo_died(philo->table))
 			exit(1);
 		sleeping(philo);
-		if (!philo_died(philo->table))
-			exit(1);
-		thinking(philo);
 	}
 }
