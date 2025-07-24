@@ -23,7 +23,7 @@ static int	philo_died(t_table *table)
 	return (1);
 }
 
-size_t	get_time(t_table *table)
+int	get_time(t_table *table)
 {
 	long long	us;
 	long		ms;
@@ -32,7 +32,7 @@ size_t	get_time(t_table *table)
 	us = ((long long)table->end.tv_sec * 1000000 + table->end.tv_usec)
 		- ((long long)table->start.tv_sec * 1000000 + table->start.tv_usec);
 	ms = us / 1000;
-	return (ms);
+	return ((int)ms);
 }
 
 void	eating(t_philo *philo)
@@ -42,7 +42,7 @@ void	eating(t_philo *philo)
 	pthread_mutex_lock(&philo->table->meal_lock);
 	time = get_time(philo->table);
 	pthread_mutex_lock(&philo->table->philos[philo->index].left_fork);
-	printf(RESET"%-5ld %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
+	printf(RESET"%-5d %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
 	if (philo->table->number_of_philos == 1)
 	{
 		ft_usleep(philo->time_to_die, philo->table);
@@ -52,9 +52,9 @@ void	eating(t_philo *philo)
 		exit(1);
 	}
 	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
-	printf(RESET"%-5ld %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
+	printf(RESET"%-5d %d "WHITE"has taken a fork\n"RESET, get_time(philo->table), philo->number);
 	pthread_mutex_lock(&philo->table->write_lock);
-	printf(RESET"%-5ld %d "GREEN"is eating\n"RESET, get_time(philo->table), philo->number);
+	printf(RESET"%-5d %d "GREEN"is eating\n"RESET, get_time(philo->table), philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
 	ft_usleep(philo->time_to_eat, philo->table);
 	pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
@@ -67,7 +67,7 @@ void	eating(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
-	printf(RESET"%-5ld %d "BLUE"is sleeping\n"RESET, get_time(philo->table),
+	printf(RESET"%-5d %d "BLUE"is sleeping\n"RESET, get_time(philo->table),
 		philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
 	ft_usleep(philo->time_to_sleep, philo->table);
@@ -76,7 +76,7 @@ void	sleeping(t_philo *philo)
 void	thinking(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
-	printf(RESET"%-5ld %d "YELLOW"is thinking\n"RESET, get_time(philo->table),
+	printf(RESET"%-5d %d "YELLOW"is thinking\n"RESET, get_time(philo->table),
 		philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
 }

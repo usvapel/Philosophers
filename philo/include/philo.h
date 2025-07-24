@@ -40,13 +40,13 @@ typedef struct s_philo
 {
 	pthread_t			thread;
 	t_mutex				left_fork;
-	atomic_int			number;
-	atomic_int			index;
-	atomic_int			right_fork;
-	atomic_int			time_to_die;
-	atomic_int			time_to_eat;
-	atomic_int			time_to_sleep;
-	atomic_int			times_to_eat;
+	int				number;
+	int				index;
+	int				right_fork;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				times_to_eat;
 	bool				times_to_eat_validity;
 	bool				has_eaten;
 	bool				has_slept;
@@ -57,8 +57,8 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	atomic_int			number_of_philos;
-	atomic_int			ac;
+	int				number_of_philos;
+	int				ac;
 	char				**av;
 	t_time				start;
 	t_time				end;
@@ -72,9 +72,9 @@ void					print_help(void);
 void					parse_input(t_table *table);
 void					setup_philos(t_table *table);
 void					*routine(void *param);
-int						atoi_safe(const char *nptr);
+int					atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
-size_t					get_time(t_table *table);
-int						ft_usleep(size_t milliseconds, t_table *table);
+int					get_time(t_table *table);
+int					ft_usleep(size_t milliseconds, t_table *table);
 
 #endif // PHILO_H

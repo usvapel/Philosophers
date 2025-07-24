@@ -40,7 +40,7 @@ static void monitor(t_table *table)
 		{
 			if (table->philos[i].has_died == true)
 			{
-				printf(RESET"%-5ld %d "WHITE"died\n"RESET, get_time(table), table->philos[i].number);
+				printf(RESET"%-5d %d "WHITE"died\n"RESET, get_time(table), table->philos[i].number);
 				exit_simulation(table);
 			}
 			i++;
