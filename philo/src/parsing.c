@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:56:54 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 20:01:48 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:05:27 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ int	parse_input(t_table *table)
 			table->philos[i].times_to_eat_validity = false;
 		i++;
 	}
+	return (1);
 }

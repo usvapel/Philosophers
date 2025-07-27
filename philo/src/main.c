@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 20:01:45 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:05:30 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static void monitor(t_table *table)
 			}
 			i++;
 		}
+		ft_usleep(1000, table);
 	}
 }
 
