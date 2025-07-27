@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/22 02:13:32 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:01:57 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ typedef struct s_table
 }						t_table;
 
 void					print_help(void);
-void					parse_input(t_table *table);
+int						parse_input(t_table *table);
 void					setup_philos(t_table *table);
 void					*routine(void *param);
-int					atoi_safe(const char *nptr);
+int						atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
-int					get_time(t_table *table);
-int					ft_usleep(size_t milliseconds, t_table *table);
+int						get_time(t_table *table);
+int						ft_usleep(size_t milliseconds, t_table *table);
 
 #endif // PHILO_H

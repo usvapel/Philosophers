@@ -6,18 +6,20 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:56:54 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/22 02:13:22 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:01:48 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	parse_input(t_table *table)
+int	parse_input(t_table *table)
 {
 	int	i;
 
 	table->number_of_philos = atoi_safe(table->av[1]);
 	table->philos = ft_calloc(table->number_of_philos, sizeof(t_philo));
+	if (!table->philos)
+		return (0);
 	i = 0;
 	while (i < table->number_of_philos)
 	{

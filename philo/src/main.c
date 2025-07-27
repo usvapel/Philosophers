@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 19:56:28 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/27 20:01:45 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	main(int ac, char **av)
 	{
 		table.ac = ac;
 		table.av = av;
-		parse_input(&table);
+		if (!parse_input(&table))
+			return (1);
 		setup_philos(&table);
 		monitor(&table);
 	}
