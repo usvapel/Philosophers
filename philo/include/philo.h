@@ -65,6 +65,8 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int					number_of_philos;
+	bool				error_status;
+	bool				wait_status;
 	int					ac;
 	char				**av;
 	t_time				start;
@@ -85,5 +87,6 @@ int						get_time(t_table *table);
 int						ft_usleep(size_t milliseconds, t_table *table);
 
 void					monitor(t_table *table);
+void	exit_error(t_table *table, char *s);
 
 #endif // PHILO_H

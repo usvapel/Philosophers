@@ -55,3 +55,10 @@ int	get_time(t_table *table)
 	ms = us / 1000;
 	return ((int)ms);
 }
+
+void	exit_error(t_table *table, char *s)
+{
+	printf("%s\n", s);
+	free(table->philos);
+	exit(EXIT_FAILURE);
+}

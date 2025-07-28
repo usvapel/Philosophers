@@ -93,6 +93,11 @@ void	*routine(void *param)
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
+	while (philo->table->wait_status == true)
+	{
+		if (philo->table->error_status == true)
+			return (NULL);
+	}
 	while (1)
 	{
 		if (!philo_died(philo->table))
