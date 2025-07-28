@@ -39,8 +39,6 @@ int	parse_input(t_table *table)
 			table->philos[i].times_to_eat_validity = true;
 			table->philos[i].times_to_eat = atoi_safe(table->av[5]);
 		}
-		else
-			table->philos[i].times_to_eat_validity = false;
 		i++;
 	}
 	return (1);
