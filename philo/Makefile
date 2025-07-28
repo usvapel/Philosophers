@@ -55,7 +55,10 @@ SRCS_MAIN := \
 	parsing.c \
 	routine.c \
 	setup.c \
-	utility.c
+	utility.c \
+	monitor.c \
+	ft_atoi.c \
+	ft_calloc.c
 
 # Combine all source files
 SRCS := \
@@ -119,7 +122,7 @@ $(OBJ_DIR)/%.o: %.c include/philo.h | $(OBJ_DIR) $(DEP_DIR)
 		printf "> [%3d%%] $(CYAN)(%d/%d files) Compiling $<... $(RESET)\n" \
 			$$((NEXT*100/$(TOTAL_SRCS))) $$((NEXT)) $(TOTAL_SRCS); \
 	fi
-	@$(CC) $(CFLAGS) $(OPTFLAGS) -c $< -o $@ $(INC)
+	@$(CC) $(CFLAGS) $(OPTFLAGS) $(DEPFLAGS) -c $< -o $@ $(INC)
 
 # ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ADDITIONAL TARGETS ■■■■■■■■■■■■■■■■■■■■■■■■■■ #
 

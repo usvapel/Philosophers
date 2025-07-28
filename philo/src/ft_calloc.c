@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 20:05:30 by jpelline         ###   ########.fr       */
+/*   Created: 2025/07/28 13:45:05 by jpelline          #+#    #+#             */
+/*   Updated: 2025/07/28 13:45:27 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	t_table	table;
+	unsigned char	*tmp;
 
-	if (ac == 5 || ac == 6)
-	{
-		table.ac = ac;
-		table.av = av;
-		if (!parse_input(&table))
-			return (1);
-		setup_philos(&table);
-		monitor(&table);
-	}
-	else
-		print_help();
-	return (0);
+	if (nmemb == 0 || size == 0)
+		return (NULL);
+	if (nmemb > __SIZE_MAX__ / size)
+		return (NULL);
+	tmp = malloc(nmemb * size);
+	if (!tmp)
+		return (NULL);
+	memset(tmp, 0, nmemb * size);
+	return (tmp);
 }

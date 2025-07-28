@@ -44,53 +44,14 @@ int	ft_usleep(size_t milliseconds, t_table *table)
 	return (0);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
+int	get_time(t_table *table)
 {
-	unsigned char	*tmp;
+	long long	us;
+	long		ms;
 
-	if (nmemb == 0 || size == 0)
-		return (NULL);
-	if (nmemb > __SIZE_MAX__ / size)
-		return (NULL);
-	tmp = malloc(nmemb * size);
-	if (!tmp)
-		return (NULL);
-	memset(tmp, 0, nmemb * size);
-	return (tmp);
-}
-
-static int	check_input(const char *nptr, int sign)
-{
-	long	result;
-	int		digit;
-
-	result = 0;
-	digit = 0;
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		digit = *nptr - '0';
-		if (sign == 1 && result > (INT_MAX - digit) / 10)
-			return (INT_MAX);
-		if (sign == -1 && result > (-(long)INT_MIN - digit) / 10)
-			return (INT_MIN);
-		result = result * 10 + digit;
-		nptr++;
-	}
-	return ((int)result);
-}
-
-int	atoi_safe(const char *nptr)
-{
-	int		sign;
-
-	sign = 1;
-	while (*nptr == ' ' || (*nptr >= '\a' && *nptr <= '\r'))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
-	{
-		if (*nptr == '-')
-			sign = -1;
-		nptr++;
-	}
-	return (check_input(nptr, sign));
+	gettimeofday(&table->end, NULL);
+	us = ((long long)table->end.tv_sec * 1000000 + table->end.tv_usec)
+		- ((long long)table->start.tv_sec * 1000000 + table->start.tv_usec);
+	ms = us / 1000;
+	return ((int)ms);
 }
