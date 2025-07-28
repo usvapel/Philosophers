@@ -22,22 +22,13 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-# define WHITE "\001\x1b[38;5;231m\002"
-# define GREEN "\001\x1b[38;5;82m\002"
-# define RED "\001\x1b[38;5;196m\002"
-# define BLUE "\001\x1b[38;5;75m\002"
-# define YELLOW "\001\x1b[38;5;226m\002"
-# define RESET "\001\x1b[0m\002"
-# define CYAN "\001\x1b[38;5;51m\002"
-# define MAGENTA "\001\x1b[38;5;201m\002"
-# define BOLD_WHITE "\001\x1b[1;97m\002"
+# include "colors.h"
 
 # define EATING RESET "%-5d %d " GREEN "is eating\n" RESET
-# define FORK RESET "%-5d %d " WHITE "has taken a fork\n" RESET
+# define FORK RESET "%-5d %d " ORANGE "has taken a fork\n" RESET
 # define SLEEP RESET "%-5d %d " BLUE "is sleeping\n" RESET
 # define THINK RESET "%-5d %d " YELLOW "is thinking\n" RESET
-# define DEATH RESET "%-5d %d " WHITE "died\n" RESET
+# define DEATH RESET "%-5d %d " RED "died\n" RESET
 
 typedef pthread_t		t_pthread;
 typedef pthread_mutex_t	t_mutex;
@@ -90,6 +81,6 @@ int						get_time(t_table *table);
 int						ft_usleep(size_t milliseconds, t_table *table);
 
 void					monitor(t_table *table);
-void	exit_error(t_table *table, char *s);
+void					exit_error(t_table *table, char *s);
 
 #endif // PHILO_H
