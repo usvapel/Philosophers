@@ -29,6 +29,9 @@
 # define BLUE "\001\x1b[38;5;75m\002"
 # define YELLOW "\001\x1b[38;5;226m\002"
 # define RESET "\001\x1b[0m\002"
+# define CYAN "\001\x1b[38;5;51m\002"
+# define MAGENTA "\001\x1b[38;5;201m\002"
+# define BOLD_WHITE "\001\x1b[1;97m\002"
 
 # define EATING RESET "%-5d %d " GREEN "is eating\n" RESET
 # define FORK RESET "%-5d %d " WHITE "has taken a fork\n" RESET

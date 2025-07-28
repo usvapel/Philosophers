@@ -12,26 +12,25 @@
 
 #include "philo.h"
 
+static const char	*g_help_text = BOLD_WHITE
+	"┌─────────────────────────────────────────────────────────────────┐\n"
+	"│                           Philosophers                          │\n"
+	"├─────────────────────────────────────────────────────────────────┤\n"
+	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
+	"│                                                                 │\n"
+	"│ Arguments:                                                      │\n"
+	"│   philosophers - Number of philosophers (and forks)             │\n"
+	"│   die          - Time (ms) before death without eating          │\n"
+	"│   eat          - Time (ms) to eat                               │\n"
+	"│   sleep        - Time (ms) to sleep                             │\n"
+	"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
+	"│                                                                 │\n"
+	"│ Example: ./philo 5 800 200 200 3                                │\n"
+	"└─────────────────────────────────────────────────────────────────┘\n";
+
 void	print_help(void)
 {
-	const char	*help_text;
-
-	help_text
-		="┌─────────────────────────────────────────────────────────────────┐\n"
-		"│                            Philosophers                         │\n"
-		"├─────────────────────────────────────────────────────────────────┤\n"
-		"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
-		"│                                                                 │\n"
-		"│ Arguments:                                                      │\n"
-		"│   philosophers - Number of philosophers (and forks)             │\n"
-		"│   die          - Time (ms) before death without eating          │\n"
-		"│   eat          - Time (ms) to eat                               │\n"
-		"│   sleep        - Time (ms) to sleep                             │\n"
-		"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
-		"│                                                                 │\n"
-		"│ Example: ./philo 5 800 200 200 3                                │\n"
-		"└─────────────────────────────────────────────────────────────────┘\n";
-	printf("%s", help_text);
+	printf("%s", g_help_text);
 }
 
 int	ft_usleep(size_t milliseconds, t_table *table)
