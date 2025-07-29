@@ -12,6 +12,19 @@
 
 #include "philo.h"
 
+static void	handle_failure(t_table *table, int i)
+{
+	pthread_mutex_destroy(&table->write_lock);
+	pthread_mutex_destroy(&table->meal_lock);
+	pthread_mutex_destroy(&table->dead_lock);
+	while (i)
+	{
+		pthread_join(table->philos[--i].thread, NULL);
+		pthread_mutex_destroy(&table->philos[i].left_fork);
+	}
+	exit_error(table, "Error: pthread_create");
+}
+
 static void	create_mutexes(t_table *table)
 {
 	int	i;
@@ -49,7 +62,8 @@ void	setup_philos(t_table *table)
 	i = 0;
 	while (i < table->number_of_philos)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, routine, (void *)&table->philos[i]))
+		if (pthread_create(&table->philos[i].thread, NULL, routine,
+				(void *)&table->philos[i]))
 		{
 			table->error_status = true;
 			break ;
@@ -59,13 +73,5 @@ void	setup_philos(t_table *table)
 	table->wait_status = false;
 	if (table->error_status == false)
 		return ;
-	pthread_mutex_destroy(&table->write_lock);
-	pthread_mutex_destroy(&table->meal_lock);
-	pthread_mutex_destroy(&table->dead_lock);
-	while (i)
-	{
-		pthread_join(table->philos[--i].thread, NULL);
-		pthread_mutex_destroy(&table->philos[i].left_fork);
-	}
-	exit_error(table, "Error: pthread_create");
+	handle_failure(table, i);
 }

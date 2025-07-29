@@ -18,8 +18,8 @@ static const char	*g_help_text = BOLD_WHITE
 	"├─────────────────────────────────────────────────────────────────┤\n"
 	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
 	"│                                                                 │\n"
-	"│ Arguments:                                                      │\n"
-	"│   philosophers - Number of philosophers (and forks)             │\n"
+	"│ Arguments:       (accepts positive integers)                    │\n"
+	"│   philosophers - Number of philosophers                         │\n"
 	"│   die          - Time (ms) before death without eating          │\n"
 	"│   eat          - Time (ms) to eat                               │\n"
 	"│   sleep        - Time (ms) to sleep                             │\n"
@@ -59,5 +59,6 @@ void	exit_error(t_table *table, char *s)
 {
 	printf("%s\n", s);
 	free(table->philos);
+	free(table);
 	exit(EXIT_FAILURE);
 }

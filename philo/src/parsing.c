@@ -12,14 +12,22 @@
 
 #include "philo.h"
 
-int	parse_input(t_table *table)
+static int	check_input_validity(t_table *table)
+{
+	if (table->number_of_philos <= 0
+		|| table->philos[0].time_to_die <= 0
+		|| table->philos[0].time_to_eat <= 0
+		|| table->philos[0].time_to_sleep <= 0)
+		return (0);
+	if (table->ac == 6 && table->philos[0].times_to_eat <= 0)
+		return (0);
+	return (1);
+}
+
+static void	assign_values(t_table *table)
 {
 	int	i;
 
-	table->number_of_philos = atoi_safe(table->av[1]);
-	table->philos = ft_calloc(table->number_of_philos, sizeof(t_philo));
-	if (!table->philos)
-		return (0);
 	i = 0;
 	while (i < table->number_of_philos)
 	{
@@ -41,5 +49,16 @@ int	parse_input(t_table *table)
 		}
 		i++;
 	}
+}
+
+int	parse_input(t_table *table)
+{
+	table->number_of_philos = atoi_safe(table->av[1]);
+	table->philos = ft_calloc(table->number_of_philos, sizeof(t_philo));
+	if (!table->philos)
+		return (0);
+	assign_values(table);
+	if (!check_input_validity(table))
+		return (0);
 	return (1);
 }

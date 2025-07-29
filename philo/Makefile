@@ -54,10 +54,11 @@ SRCS_MAIN := \
 	main.c \
 	parsing.c \
 	routine.c \
+	routine_helpers.c \
 	setup.c \
 	utility.c \
 	monitor.c \
-	ft_atoi.c \
+	atoi_safe.c \
 	ft_calloc.c
 
 # Combine all source files

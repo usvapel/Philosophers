@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   atoi_safe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:44:49 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/28 13:45:51 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:34:54 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static int	check_input(const char *nptr, int sign)
 	{
 		digit = *nptr - '0';
 		if (sign == 1 && result > (INT_MAX - digit) / 10)
-			return (INT_MAX);
+			return (0);
 		if (sign == -1 && result > (-(long)INT_MIN - digit) / 10)
-			return (INT_MIN);
+			return (0);
 		result = result * 10 + digit;
 		nptr++;
 	}
-	return ((int)result);
+	return ((int)result * sign);
 }
 
 int	atoi_safe(const char *nptr)

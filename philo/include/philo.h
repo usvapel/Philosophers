@@ -13,6 +13,7 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+# include "colors.h"
 # include <limits.h>
 # include <pthread.h>
 # include <stdatomic.h>
@@ -22,13 +23,12 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include "colors.h"
 
-# define EATING RESET "%-5d %d " GREEN "is eating\n" RESET
-# define FORK RESET "%-5d %d " ORANGE "has taken a fork\n" RESET
-# define SLEEP RESET "%-5d %d " BLUE "is sleeping\n" RESET
-# define THINK RESET "%-5d %d " YELLOW "is thinking\n" RESET
-# define DEATH RESET "%-5d %d " RED "died\n" RESET
+# define EATING "%d %d is eating\n"
+# define FORK "%d %d has taken a fork\n"
+# define SLEEP "%d %d is sleeping\n"
+# define THINK "%d %d is thinking\n"
+# define DEATH "%d %d died\n"
 
 typedef pthread_t		t_pthread;
 typedef pthread_mutex_t	t_mutex;
@@ -79,8 +79,10 @@ int						atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
 int						get_time(t_table *table);
 int						ft_usleep(size_t milliseconds, t_table *table);
-
 void					monitor(t_table *table);
 void					exit_error(t_table *table, char *s);
-
+void					print_handler(char *type, t_philo *philo);
+int						philo_died(t_table *table);
+int						handle_meals(t_philo *philo);
+void					check_time(t_philo *philo, const int time);
 #endif // PHILO_H
