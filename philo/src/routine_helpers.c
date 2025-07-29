@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:59:30 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 20:59:37 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:37:23 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	check_time(t_philo *philo, const int time)
 {
 	if (get_time(philo->table) - time >= philo->time_to_die + 10)
 	{
-		philo->has_died = true;
 		philo->death_time = get_time(philo->table);
+		philo->has_died = true;
 	}
 }
 
