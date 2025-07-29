@@ -6,22 +6,20 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:17:04 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 22:41:04 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:49:29 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int single_philo(t_philo *philo)
+static char *single_philo(t_philo *philo)
 {
+	print_handler(THINK, philo);
+	print_handler(FORK, philo);
 	ft_usleep(philo->time_to_die, philo->table);
-	pthread_mutex_lock(&philo->table->dead_lock);
 	philo->death_time = get_time(philo->table);
 	philo->has_died = true;
-	pthread_mutex_unlock(&philo->table->dead_lock);
-	pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
-	pthread_mutex_unlock(&philo->table->meal_lock);
-	return (0);
+	return (NULL);
 }
 
 int	eating(t_philo *philo)
@@ -35,8 +33,6 @@ int	eating(t_philo *philo)
 		return (0);
 	}
 	print_handler(FORK, philo);
-	if (philo->table->number_of_philos == 1)
-		return (single_philo(philo));
 	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
 	if (!philo_died(philo->table))
 	{
@@ -64,19 +60,13 @@ int	eating(t_philo *philo)
 
 void	sleeping(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->write_lock);
-	printf("%d %d is sleeping\n", get_time(philo->table),
-		philo->number);
-	pthread_mutex_unlock(&philo->table->write_lock);
+	print_handler(SLEEP, philo);
 	ft_usleep(philo->time_to_sleep, philo->table);
 }
 
 void	thinking(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->write_lock);
-	printf("%d %d is thinking\n", get_time(philo->table),
-		philo->number);
-	pthread_mutex_unlock(&philo->table->write_lock);
+	print_handler(THINK, philo);
 	usleep(1000);
 }
 
@@ -86,10 +76,10 @@ void	*routine(void *param)
 
 	philo = (t_philo *)param;
 	while (philo->table->wait_status == true)
-	{
 		if (philo->table->error_status == true)
 			return (NULL);
-	}
+	if (philo->table->number_of_philos == 1)
+		return (single_philo(philo));
 	thinking(philo);
 	if (philo->number % 2 != 0)
 		if (!eating(philo))
