@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:17:04 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 19:53:06 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:41:04 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int single_philo(t_philo *philo)
 {
 	ft_usleep(philo->time_to_die, philo->table);
 	pthread_mutex_lock(&philo->table->dead_lock);
-	philo->has_died = true;
 	philo->death_time = get_time(philo->table);
+	philo->has_died = true;
 	pthread_mutex_unlock(&philo->table->dead_lock);
 	pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
 	pthread_mutex_unlock(&philo->table->meal_lock);
