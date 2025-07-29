@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:59:30 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 22:53:00 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:08:36 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ int	handle_meals(t_philo *philo)
 			return (0);
 	}
 	return (1);
+}
+
+int	unlock_mutexes(t_philo *philo, int mutex_tracker)
+{
+	if (mutex_tracker == 2)
+		pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
+	pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
+	return (0);
 }

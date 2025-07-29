@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 20:05:30 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:07:42 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	if (ac == 5 || ac == 6)
 	{
 		table = ft_calloc(1, sizeof(t_table));
-		if (!table) // FIX 3 100 60 60
+		if (!table)
 			return (1);
 		table->ac = ac;
 		table->av = av;

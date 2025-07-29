@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:59:34 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 19:56:33 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:08:52 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_failure(t_table *table, int i)
 	while (i)
 	{
 		pthread_join(table->philos[--i].thread, NULL);
-		pthread_mutex_destroy(&table->philos[i].left_fork);
+		pthread_mutex_destroy(&table->philos[i].fork);
 	}
 	exit_error(table, "Error: pthread_create");
 }
@@ -44,12 +44,12 @@ static void	create_mutexes(t_table *table)
 	}
 	i = 0;
 	while (i < table->number_of_philos)
-		if (pthread_mutex_init(&table->philos[i++].left_fork, NULL))
+		if (pthread_mutex_init(&table->philos[i++].fork, NULL))
 			break ;
 	if (i == table->number_of_philos)
 		return ;
 	while (i)
-		pthread_mutex_destroy(&table->philos[--i].left_fork);
+		pthread_mutex_destroy(&table->philos[--i].fork);
 	exit_error(table, "Error: pthread_mutex_init");
 }
 

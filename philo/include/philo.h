@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/27 20:01:57 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:08:45 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_table	t_table;
 typedef struct s_philo
 {
 	pthread_t			thread;
-	t_mutex				left_fork;
+	t_mutex				fork;
 	int					number;
 	int					index;
 	int					right_fork;
@@ -85,4 +85,5 @@ void					print_handler(char *type, t_philo *philo);
 int						philo_died(t_table *table);
 int						handle_meals(t_philo *philo);
 void					check_time(t_philo *philo, const int time);
+int						unlock_mutexes(t_philo *philo, int mutex_tracker);
 #endif // PHILO_H

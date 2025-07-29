@@ -6,13 +6,13 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:17:04 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 22:49:29 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:08:31 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static char *single_philo(t_philo *philo)
+static char	*single_philo(t_philo *philo)
 {
 	print_handler(THINK, philo);
 	print_handler(FORK, philo);
@@ -25,33 +25,24 @@ static char *single_philo(t_philo *philo)
 int	eating(t_philo *philo)
 {
 	const int	time = get_time(philo->table);
+	int			mutex_tracker;
 
-	pthread_mutex_lock(&philo->table->philos[philo->index].left_fork);
+	pthread_mutex_lock(&philo->table->philos[philo->index].fork);
+	mutex_tracker = 1;
 	if (!philo_died(philo->table))
-	{
-		pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
-		return (0);
-	}
+		return (unlock_mutexes(philo, mutex_tracker));
 	print_handler(FORK, philo);
-	pthread_mutex_lock(&philo->table->philos[philo->right_fork].left_fork);
+	pthread_mutex_lock(&philo->table->philos[philo->right_fork].fork);
+	mutex_tracker = 2;
 	if (!philo_died(philo->table))
-	{
-		pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
-		pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
-		return (0);
-	}
+		return (unlock_mutexes(philo, mutex_tracker));
 	print_handler(FORK, philo);
 	if (!philo_died(philo->table))
-	{
-		pthread_mutex_unlock(&philo->table->write_lock);
-		pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
-		pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
-		return (0);
-	}
+		return (unlock_mutexes(philo, mutex_tracker));
 	print_handler(EATING, philo);
 	ft_usleep(philo->time_to_eat, philo->table);
-	pthread_mutex_unlock(&philo->table->philos[philo->index].left_fork);
-	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].left_fork);
+	pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
+	pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
 	pthread_mutex_lock(&philo->table->dead_lock);
 	check_time(philo, time);
 	pthread_mutex_unlock(&philo->table->dead_lock);

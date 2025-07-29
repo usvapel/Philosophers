@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/28 13:42:51 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:07:50 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	exit_simulation(t_table *table)
 		pthread_join(table->philos[i++].thread, NULL);
 	i = 0;
 	while (i < table->number_of_philos)
-		pthread_mutex_destroy(&table->philos[i++].left_fork);
+		pthread_mutex_destroy(&table->philos[i++].fork);
 	pthread_mutex_destroy(&table->write_lock);
 	pthread_mutex_destroy(&table->meal_lock);
 	pthread_mutex_destroy(&table->dead_lock);
@@ -56,7 +56,7 @@ void	monitor(t_table *table)
 		{
 			if (table->philos[i].has_died == true)
 			{
-				printf("%d %d died", table->philos[i].death_time,
+				printf("%d %d died\n", table->philos[i].death_time,
 					table->philos[i].number);
 				exit_simulation(table);
 			}
