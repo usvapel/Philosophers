@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 20:56:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/15 20:56:53 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:19:48 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,25 @@ int	ft_usleep(size_t milliseconds, t_table *table)
 
 	start = get_time(table);
 	while ((get_time(table) - start) < milliseconds)
+	{
+		if (table->death == true)
+			break ;
 		usleep(500);
+	}
 	return (0);
 }
 
 int	get_time(t_table *table)
 {
-	long long	us;
-	long		ms;
+    struct timeval	now;
+    long long		us;
+    long			ms;
 
-	gettimeofday(&table->end, NULL);
-	us = ((long long)table->end.tv_sec * 1000000 + table->end.tv_usec)
-		- ((long long)table->start.tv_sec * 1000000 + table->start.tv_usec);
-	ms = us / 1000;
-	return ((int)ms);
+    gettimeofday(&now, NULL);
+    us = ((long long)now.tv_sec * 1000000 + now.tv_usec)
+        - ((long long)table->start.tv_sec * 1000000 + table->start.tv_usec);
+    ms = us / 1000;
+    return ((int)ms);
 }
 
 void	exit_error(t_table *table, char *s)

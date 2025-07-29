@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:59:34 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 23:08:52 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:00:10 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	setup_philos(t_table *table)
 
 	create_mutexes(table);
 	gettimeofday(&table->start, NULL);
+	table->wait_status = true;
+	table->error_status = false;
 	i = 0;
 	while (i < table->number_of_philos)
 	{

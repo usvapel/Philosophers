@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 23:08:45 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:51:16 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	t_mutex				fork;
 	int					number;
 	int					index;
+	int					time;
 	int					right_fork;
 	int					time_to_die;
 	int					time_to_eat;
@@ -59,12 +60,12 @@ typedef struct s_philo
 typedef struct s_table
 {
 	int					number_of_philos;
+	bool				death;
 	bool				error_status;
 	bool				wait_status;
 	int					ac;
 	char				**av;
 	t_time				start;
-	t_time				end;
 	t_mutex				write_lock;
 	t_mutex				dead_lock;
 	t_mutex				meal_lock;
@@ -79,11 +80,11 @@ int						atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
 int						get_time(t_table *table);
 int						ft_usleep(size_t milliseconds, t_table *table);
-void					monitor(t_table *table);
+int						monitor(t_table *table);
 void					exit_error(t_table *table, char *s);
-void					print_handler(char *type, t_philo *philo);
+int						print_handler(char *type, t_philo *philo);
 int						philo_died(t_table *table);
 int						handle_meals(t_philo *philo);
-void					check_time(t_philo *philo, const int time);
+void					check_time(t_philo *philo);
 int						unlock_mutexes(t_philo *philo, int mutex_tracker);
 #endif // PHILO_H

@@ -6,45 +6,49 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:59:30 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 23:08:36 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:32:01 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_handler(char *type, t_philo *philo)
+int	print_handler(char *type, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
+	if (!philo_died(philo->table))
+	{
+		pthread_mutex_unlock(&philo->table->write_lock);
+		return (0);
+	}
 	printf(type, get_time(philo->table), philo->number);
 	pthread_mutex_unlock(&philo->table->write_lock);
+	return (1);
 }
 
 int	philo_died(t_table *table)
 {
-	int	i;
-
 	pthread_mutex_lock(&table->dead_lock);
-	i = 0;
-	while (i < table->number_of_philos)
+	if (table->death == true)
 	{
-		if (table->philos[i].has_died == true)
-		{
-			pthread_mutex_unlock(&table->dead_lock);
-			return (0);
-		}
-		i++;
+		pthread_mutex_unlock(&table->dead_lock);
+		return (0);
 	}
 	pthread_mutex_unlock(&table->dead_lock);
 	return (1);
 }
 
-void	check_time(t_philo *philo, const int time)
+void	check_time(t_philo *philo)
 {
-	if (get_time(philo->table) - time >= philo->time_to_die)
+	pthread_mutex_lock(&philo->table->dead_lock);
+	if (get_time(philo->table) - philo->time > philo->time_to_die)
 	{
+		printf("DEBUG: n: \n%d\n", philo->number);
+		printf("DEBUG: _time: %d - %d > %d\n", get_time(philo->table), philo->time, philo->time_to_die);
 		philo->death_time = get_time(philo->table);
 		philo->has_died = true;
+		philo->table->death = true;
 	}
+	pthread_mutex_unlock(&philo->table->dead_lock);
 }
 
 int	handle_meals(t_philo *philo)

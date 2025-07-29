@@ -6,13 +6,13 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 23:07:50 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:33:13 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	exit_simulation(t_table *table)
+static int	exit_simulation(t_table *table)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ static void	exit_simulation(t_table *table)
 	pthread_mutex_destroy(&table->dead_lock);
 	free(table->philos);
 	free(table);
-	exit(0);
+	return (0);
 }
 
 static int	all_philos_have_eaten(t_table *table)
@@ -45,7 +45,7 @@ static int	all_philos_have_eaten(t_table *table)
 	return (0);
 }
 
-void	monitor(t_table *table)
+int	monitor(t_table *table)
 {
 	int	i;
 
@@ -56,12 +56,15 @@ void	monitor(t_table *table)
 		{
 			if (table->philos[i].has_died == true)
 			{
+				pthread_mutex_lock(&table->dead_lock);
 				printf("%d %d died\n", table->philos[i].death_time,
 					table->philos[i].number);
-				exit_simulation(table);
+				pthread_mutex_unlock(&table->dead_lock);
+				return (exit_simulation(table));
 			}
+			pthread_mutex_unlock(&table->dead_lock);
 			if (table->ac == 6 && !all_philos_have_eaten(table))
-				exit_simulation(table);
+				return (exit_simulation(table));
 			i++;
 		}
 	}
