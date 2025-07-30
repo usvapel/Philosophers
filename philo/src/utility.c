@@ -58,7 +58,7 @@ int	get_time(t_table *table)
 	return ((int)ms);
 }
 
-static void	reset_time(t_philo *philo)
+static void	sync_to_start_time(t_philo *philo)
 {
 	t_time	now;
 
@@ -96,6 +96,6 @@ int	wait_for_start(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->write_lock);
 		usleep(10);
 	}
-	reset_time(philo);
+	sync_to_start_time(philo);
 	return (1);
 }
