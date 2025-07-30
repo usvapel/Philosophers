@@ -6,33 +6,14 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:17:04 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 00:22:34 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:37:21 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	*single_philo(t_philo *philo)
+static int	handle_forks(t_philo *philo)
 {
-	if (!print_handler(THINK, philo))
-		return (0);
-	if (!print_handler(FORK, philo))
-		return (0);
-	ft_usleep(philo->time_to_die, philo->table);
-	pthread_mutex_lock(&philo->table->dead_lock);
-	philo->death_time = get_time(philo->table);
-	philo->has_died = true;
-	philo->table->death = true;
-	pthread_mutex_unlock(&philo->table->dead_lock);
-	return (NULL);
-}
-
-static int	eating(t_philo *philo)
-{
-	philo->time = get_time(philo->table);
-	pthread_mutex_lock(&philo->table->meal_lock);
-	philo->has_eaten = false;
-	pthread_mutex_unlock(&philo->table->meal_lock);
 	if (philo->index < philo->right_fork)
 	{
 		pthread_mutex_lock(&philo->table->philos[philo->index].fork);
@@ -55,6 +36,17 @@ static int	eating(t_philo *philo)
 		if (!print_handler(FORK, philo))
 			return (unlock_mutexes(philo));
 	}
+	return (1);
+}
+
+static int	eating(t_philo *philo)
+{
+	philo->time = get_time(philo->table);
+	pthread_mutex_lock(&philo->table->meal_lock);
+	philo->has_eaten = false;
+	pthread_mutex_unlock(&philo->table->meal_lock);
+	if (!handle_forks(philo))
+		return (0);
 	pthread_mutex_lock(&philo->table->dead_lock);
 	philo->last_meal = get_time(philo->table);
 	pthread_mutex_unlock(&philo->table->dead_lock);

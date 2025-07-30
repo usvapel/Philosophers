@@ -6,32 +6,22 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 20:56:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 12:30:31 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:36:48 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static const char	*g_help_text = BOLD_WHITE
-	"┌─────────────────────────────────────────────────────────────────┐\n"
-	"│                           Philosophers                          │\n"
-	"├─────────────────────────────────────────────────────────────────┤\n"
-	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
-	"│                                                                 │\n"
-	"│ Arguments:       (accepts positive integers)                    │\n"
-	"│   philosophers - Number of philosophers                         │\n"
-	"│   die          - Time (ms) before death without eating          │\n"
-	"│   eat          - Time (ms) to eat                               │\n"
-	"│   sleep        - Time (ms) to sleep                             │\n"
-	"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
-	"│                                                                 │\n"
-	"│ Example: ./philo 5 800 200 200 3                                │\n"
-	"└─────────────────────────────────────────────────────────────────┘\n"
-	RESET;
-
-void	print_help(void)
+void	check_time(t_philo *philo)
 {
-	printf("%s", g_help_text);
+	pthread_mutex_lock(&philo->table->dead_lock);
+	if (get_time(philo->table) - philo->last_meal > philo->time_to_die)
+	{
+		philo->death_time = get_time(philo->table);
+		philo->has_died = true;
+		philo->table->death = true;
+	}
+	pthread_mutex_unlock(&philo->table->dead_lock);
 }
 
 int	ft_usleep(size_t milliseconds, t_table *table)

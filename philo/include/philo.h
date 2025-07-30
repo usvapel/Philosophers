@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 12:36:37 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:36:23 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void					*routine(void *param);
 int						monitor(t_table *table);
 int						parse_input(t_table *table);
 int						setup_philos(t_table *table);
+void					*single_philo(t_philo *philo);
 int						get_time(t_table *table);
 void					check_time(t_philo *philo);
 void					exit_error(t_table *table, char *s);

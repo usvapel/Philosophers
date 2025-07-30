@@ -6,11 +6,33 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 12:15:32 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:36:25 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static const char	*g_help_text = BOLD_WHITE
+	"┌─────────────────────────────────────────────────────────────────┐\n"
+	"│                           Philosophers                          │\n"
+	"├─────────────────────────────────────────────────────────────────┤\n"
+	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
+	"│                                                                 │\n"
+	"│ Arguments:       (accepts positive integers)                    │\n"
+	"│   philosophers - Number of philosophers                         │\n"
+	"│   die          - Time (ms) before death without eating          │\n"
+	"│   eat          - Time (ms) to eat                               │\n"
+	"│   sleep        - Time (ms) to sleep                             │\n"
+	"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
+	"│                                                                 │\n"
+	"│ Example: ./philo 5 800 200 200 3                                │\n"
+	"└─────────────────────────────────────────────────────────────────┘\n"
+	RESET;
+
+void	print_help(void)
+{
+	printf("%s", g_help_text);
+}
 
 int	main(int ac, char **av)
 {
