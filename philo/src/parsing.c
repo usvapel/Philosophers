@@ -34,6 +34,7 @@ static void	assign_values(t_table *table)
 		table->philos[i].index = i;
 		table->philos[i].number = i + 1;
 		table->philos[i].table = table;
+		table->philos[i].death_time = -1;
 		table->philos[i].time_to_die = atoi_safe(table->av[2]);
 		table->philos[i].time_to_eat = atoi_safe(table->av[3]);
 		table->philos[i].time_to_sleep = atoi_safe(table->av[4]);
@@ -56,5 +57,8 @@ int	parse_input(t_table *table)
 	assign_values(table);
 	if (!check_input_validity(table))
 		return (0);
+	table->time_to_die = table->philos[0].time_to_die;
+	table->time_to_eat = table->philos[0].time_to_eat;
+	table->time_to_sleep = table->philos[0].time_to_sleep;
 	return (1);
 }

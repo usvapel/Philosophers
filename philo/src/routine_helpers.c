@@ -15,7 +15,8 @@
 int	print_handler(char *type, t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->write_lock);
-	if (!philo_died(philo->table))
+	if (!philo_died(philo->table)
+		&& get_time(philo->table) >= philo->time_to_die)
 	{
 		pthread_mutex_unlock(&philo->table->write_lock);
 		return (0);
@@ -40,9 +41,9 @@ int	philo_died(t_table *table)
 void	check_time(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->dead_lock);
-	if (get_time(philo->table) - philo->time > philo->time_to_die)
+	if (get_time(philo->table) - philo->last_meal > philo->time_to_die)
 	{
-		philo->death_time = philo->time_to_die + philo->time;
+		philo->death_time = get_time(philo->table);
 		philo->has_died = true;
 		philo->table->death = true;
 	}

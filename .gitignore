@@ -55,3 +55,4 @@ compile_commands.json
 .standard_build
 .cache
 .bonus_build
+obj

@@ -37,12 +37,20 @@ static int	all_philos_have_eaten(t_table *table)
 	i = 0;
 	while (i < table->number_of_philos)
 	{
-		if (table->philos[i].times_to_eat != 0
-			|| table->number_of_philos == 1)
+		if (table->philos[i].times_to_eat != 0 || table->number_of_philos == 1)
 			return (1);
 		i++;
 	}
 	return (0);
+}
+
+static int	handle_death(t_table *table, int i)
+{
+	ft_usleep(table->time_to_die, table);
+	table->philos[i].has_died = true;
+	table->death = true;
+	printf("%d %d died\n", table->time_to_die, table->philos[i].number);
+	return (exit_simulation(table));
 }
 
 int	monitor(t_table *table)
@@ -54,6 +62,11 @@ int	monitor(t_table *table)
 		i = 0;
 		while (i < table->number_of_philos)
 		{
+			wait_for_start(&table->philos[i]);
+			if (table->time_to_eat + table->time_to_sleep > table->time_to_die
+				&& table->philos[i].has_eaten == true)
+				return (handle_death(table, i));
+			check_time(&table->philos[i]);
 			if (table->philos[i].has_died == true)
 			{
 				printf("%d %d died\n", table->philos[i].death_time,
@@ -64,5 +77,6 @@ int	monitor(t_table *table)
 				return (exit_simulation(table));
 			i++;
 		}
+		usleep(1000);
 	}
 }

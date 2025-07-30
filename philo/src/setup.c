@@ -58,7 +58,6 @@ void	setup_philos(t_table *table)
 	int	i;
 
 	create_mutexes(table);
-	gettimeofday(&table->start, NULL);
 	table->wait_status = true;
 	table->error_status = false;
 	i = 0;
@@ -72,6 +71,7 @@ void	setup_philos(t_table *table)
 		}
 		i++;
 	}
+	gettimeofday(&table->start, NULL);
 	table->wait_status = false;
 	if (table->error_status == false)
 		return ;

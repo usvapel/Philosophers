@@ -51,9 +51,9 @@ int	ft_usleep(size_t milliseconds, t_table *table)
 
 int	get_time(t_table *table)
 {
-	struct timeval	now;
-	long long		us;
-	long			ms;
+	t_time		now;
+	long long	us;
+	long		ms;
 
 	gettimeofday(&now, NULL);
 	us = ((long long)now.tv_sec * 1000000 + now.tv_usec)
@@ -64,11 +64,22 @@ int	get_time(t_table *table)
 
 int	wait_for_start(t_philo *philo)
 {
+	t_time	now;
+
 	while (philo->table->wait_status == true)
 	{
 		if (philo->table->error_status == true)
 			return (0);
-		usleep(1000);
+		usleep(10);
+	}
+	while (1)
+	{
+		gettimeofday(&now, NULL);
+		if (now.tv_sec > philo->table->start.tv_sec
+			|| (now.tv_sec == philo->table->start.tv_sec
+				&& now.tv_usec >= philo->table->start.tv_usec))
+			break ;
+		usleep(100);
 	}
 	return (1);
 }

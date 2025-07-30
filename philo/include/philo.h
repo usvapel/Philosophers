@@ -49,7 +49,9 @@ typedef struct s_philo
 	int					times_to_eat;
 	bool				times_to_eat_validity;
 	bool				has_died;
+	bool				has_eaten;
 	int					death_time;
+	int					last_meal;
 	int					mutex_tracker;
 	t_table				*table;
 }						t_philo;
@@ -58,8 +60,12 @@ typedef struct s_table
 {
 	int					number_of_philos;
 	bool				death;
-	bool				error_status;
-	bool				wait_status;
+	volatile bool		error_status;
+	volatile bool		wait_status;
+	bool				start_sim;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
 	int					ac;
 	char				**av;
 	t_time				start;

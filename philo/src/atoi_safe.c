@@ -29,6 +29,8 @@ static int	check_input(const char *nptr, int sign)
 		result = result * 10 + digit;
 		nptr++;
 	}
+	if (*nptr)
+		return (0);
 	return ((int)result * sign);
 }
 
