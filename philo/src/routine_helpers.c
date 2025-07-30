@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:59:30 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 01:32:01 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:03:50 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	check_time(t_philo *philo)
 	pthread_mutex_lock(&philo->table->dead_lock);
 	if (get_time(philo->table) - philo->time > philo->time_to_die)
 	{
-		printf("DEBUG: n: \n%d\n", philo->number);
-		printf("DEBUG: _time: %d - %d > %d\n", get_time(philo->table), philo->time, philo->time_to_die);
-		philo->death_time = get_time(philo->table);
+		philo->death_time = philo->time_to_die + philo->time;
 		philo->has_died = true;
 		philo->table->death = true;
 	}
@@ -62,9 +60,9 @@ int	handle_meals(t_philo *philo)
 	return (1);
 }
 
-int	unlock_mutexes(t_philo *philo, int mutex_tracker)
+int	unlock_mutexes(t_philo *philo)
 {
-	if (mutex_tracker == 2)
+	if (philo->mutex_tracker == 2)
 		pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
 	pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
 	return (0);

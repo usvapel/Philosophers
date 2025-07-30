@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 00:51:16 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:08:11 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	bool				is_thinking;
 	bool				has_died;
 	int					death_time;
+	int					mutex_tracker;
 	t_table				*table;
 }						t_philo;
 
@@ -86,5 +87,7 @@ int						print_handler(char *type, t_philo *philo);
 int						philo_died(t_table *table);
 int						handle_meals(t_philo *philo);
 void					check_time(t_philo *philo);
-int						unlock_mutexes(t_philo *philo, int mutex_tracker);
+int						unlock_mutexes(t_philo *philo);
+int						wait_for_start(t_philo *philo);
+
 #endif // PHILO_H

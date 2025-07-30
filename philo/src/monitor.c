@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 01:33:13 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:53:05 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,10 @@ int	monitor(t_table *table)
 		{
 			if (table->philos[i].has_died == true)
 			{
-				pthread_mutex_lock(&table->dead_lock);
 				printf("%d %d died\n", table->philos[i].death_time,
 					table->philos[i].number);
-				pthread_mutex_unlock(&table->dead_lock);
 				return (exit_simulation(table));
 			}
-			pthread_mutex_unlock(&table->dead_lock);
 			if (table->ac == 6 && !all_philos_have_eaten(table))
 				return (exit_simulation(table));
 			i++;
