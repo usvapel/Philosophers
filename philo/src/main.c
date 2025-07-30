@@ -18,7 +18,7 @@ static const char	*g_help_text = BOLD_WHITE
 	"├─────────────────────────────────────────────────────────────────┤\n"
 	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
 	"│                                                                 │\n"
-	"│ Arguments:       (accepts positive integers)                    │\n"
+	"│ Arguments:                                                      │\n"
 	"│   philosophers - Number of philosophers                         │\n"
 	"│   die          - Time (ms) before death without eating          │\n"
 	"│   eat          - Time (ms) to eat                               │\n"
