@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 00:36:23 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:39:00 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void					*single_philo(t_philo *philo);
 int						get_time(t_table *table);
 void					check_time(t_philo *philo);
 void					exit_error(t_table *table, char *s);
-void					print_help(void);
 int						print_handler(char *type, t_philo *philo);
 int						philo_died(t_table *table);
 int						handle_meals(t_philo *philo);

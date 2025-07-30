@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 00:36:25 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:39:01 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ static const char	*g_help_text = BOLD_WHITE
 	"│ Example: ./philo 5 800 200 200 3                                │\n"
 	"└─────────────────────────────────────────────────────────────────┘\n"
 	RESET;
-
-void	print_help(void)
-{
-	printf("%s", g_help_text);
-}
 
 int	main(int ac, char **av)
 {
@@ -56,6 +51,6 @@ int	main(int ac, char **av)
 		return (monitor(table));
 	}
 	else
-		print_help();
+		printf("%s", g_help_text);
 	return (0);
 }
