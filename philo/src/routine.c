@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:17:04 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 12:15:34 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:51:56 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ void	*routine(void *param)
 		return (NULL);
 	if (philo->table->number_of_philos == 1)
 		return (single_philo(philo));
-	if (philo->number % 2 == 0)
-		ft_usleep(1, philo->table);
+	if (philo->index % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
 		if (!philo_died(philo->table) || !thinking(philo))
