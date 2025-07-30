@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:54:16 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/29 23:22:44 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:15:32 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 		{
 			free(table->philos);
 			free(table);
-			print_help();
+			printf("Error: all arguments must be positive integers.\n");
 			return (1);
 		}
 		setup_philos(table);
