@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:59:34 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 22:48:16 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:05:02 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ int	setup_philos(t_table *table)
 	if (!create_mutexes(table))
 		return (0);
 	gettimeofday(&table->start, NULL);
-	i = -1;
-	while (++i < table->number_of_philos)
+	i = 0;
+	while (i < table->number_of_philos)
 	{
 		if (!launch_threads(table, i))
 			break ;
+		i++;
 	}
 	pthread_mutex_lock(&table->write_lock);
 	table->wait_status = false;

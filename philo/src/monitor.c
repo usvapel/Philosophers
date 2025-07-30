@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 11:53:05 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:30:10 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,13 @@ static int	all_philos_have_eaten(t_table *table)
 static int	handle_death(t_table *table, int i)
 {
 	ft_usleep(table->time_to_die, table);
+	pthread_mutex_lock(&table->dead_lock);
 	table->philos[i].has_died = true;
 	table->death = true;
+	pthread_mutex_unlock(&table->dead_lock);
+	pthread_mutex_lock(&table->write_lock);
 	printf("%d %d died\n", table->time_to_die, table->philos[i].number);
+	pthread_mutex_unlock(&table->write_lock);
 	return (exit_simulation(table));
 }
 

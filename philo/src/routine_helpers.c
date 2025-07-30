@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 20:59:30 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 12:03:50 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 00:20:21 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,19 @@ int	handle_meals(t_philo *philo)
 
 int	unlock_mutexes(t_philo *philo)
 {
-	if (philo->mutex_tracker == 2)
-		pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
-	pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
+    if (philo->mutex_tracker >= 1)
+    {
+        if (philo->index < philo->right_fork)
+            pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
+        else
+            pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
+    }
+    if (philo->mutex_tracker == 2)
+    {
+        if (philo->index < philo->right_fork)
+            pthread_mutex_unlock(&philo->table->philos[philo->right_fork].fork);
+        else
+            pthread_mutex_unlock(&philo->table->philos[philo->index].fork);
+    }
 	return (0);
 }
