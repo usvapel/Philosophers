@@ -19,9 +19,11 @@ static void	*single_philo(t_philo *philo)
 	if (!print_handler(FORK, philo))
 		return (0);
 	ft_usleep(philo->time_to_die, philo->table);
+	pthread_mutex_lock(&philo->table->dead_lock);
 	philo->death_time = get_time(philo->table);
 	philo->has_died = true;
 	philo->table->death = true;
+	pthread_mutex_unlock(&philo->table->dead_lock);
 	return (NULL);
 }
 

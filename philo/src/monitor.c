@@ -67,12 +67,15 @@ int	monitor(t_table *table)
 				&& table->philos[i].has_eaten == true)
 				return (handle_death(table, i));
 			check_time(&table->philos[i]);
+			pthread_mutex_lock(&table->dead_lock);
 			if (table->philos[i].has_died == true)
 			{
 				printf("%d %d died\n", table->philos[i].death_time,
 					table->philos[i].number);
+				pthread_mutex_unlock(&table->dead_lock);
 				return (exit_simulation(table));
 			}
+			pthread_mutex_unlock(&table->dead_lock);
 			if (table->ac == 6 && !all_philos_have_eaten(table))
 				return (exit_simulation(table));
 			i++;

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static void	handle_failure(t_table *table, int i)
+static int	handle_failure(t_table *table, int i)
 {
 	pthread_mutex_destroy(&table->write_lock);
 	pthread_mutex_destroy(&table->meal_lock);
@@ -22,35 +22,36 @@ static void	handle_failure(t_table *table, int i)
 		pthread_join(table->philos[--i].thread, NULL);
 		pthread_mutex_destroy(&table->philos[i].fork);
 	}
-	exit_error(table, "Error: pthread_create");
+	printf("Failure in thread creation");
+	return (0);
 }
 
-static void	create_mutexes(t_table *table)
+static int	create_mutexes(t_table *table)
 {
 	int	i;
 
 	if (pthread_mutex_init(&table->write_lock, NULL))
-		exit_error(table, "Error: pthread_mutex_init");
+		return (0);
 	if (pthread_mutex_init(&table->dead_lock, NULL))
 	{
 		pthread_mutex_destroy(&table->write_lock);
-		exit_error(table, "Error: pthread_mutex_init");
+		return (0);
 	}
 	if (pthread_mutex_init(&table->meal_lock, NULL))
 	{
 		pthread_mutex_destroy(&table->write_lock);
 		pthread_mutex_destroy(&table->dead_lock);
-		exit_error(table, "Error: pthread_mutex_init");
+		return (0);
 	}
 	i = 0;
 	while (i < table->number_of_philos)
 		if (pthread_mutex_init(&table->philos[i++].fork, NULL))
 			break ;
 	if (i == table->number_of_philos)
-		return ;
+		return (1);
 	while (i)
 		pthread_mutex_destroy(&table->philos[--i].fork);
-	exit_error(table, "Error: pthread_mutex_init");
+	return (0);
 }
 
 void	setup_philos(t_table *table)
@@ -58,6 +59,7 @@ void	setup_philos(t_table *table)
 	int	i;
 
 	create_mutexes(table);
+	gettimeofday(&table->start, NULL);
 	table->wait_status = true;
 	table->error_status = false;
 	i = 0;
@@ -66,14 +68,20 @@ void	setup_philos(t_table *table)
 		if (pthread_create(&table->philos[i].thread, NULL, routine,
 				(void *)&table->philos[i]))
 		{
+			pthread_mutex_lock(&table->write_lock);
 			table->error_status = true;
+			pthread_mutex_unlock(&table->write_lock);
 			break ;
 		}
 		i++;
 	}
-	gettimeofday(&table->start, NULL);
+	pthread_mutex_lock(&table->write_lock);
 	table->wait_status = false;
 	if (table->error_status == false)
+	{
+		pthread_mutex_unlock(&table->write_lock);
 		return ;
+	}
+	pthread_mutex_unlock(&table->write_lock);
 	handle_failure(table, i);
 }

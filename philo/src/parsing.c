@@ -18,9 +18,15 @@ static int	check_input_validity(t_table *table)
 		|| table->philos[0].time_to_die <= 0
 		|| table->philos[0].time_to_eat <= 0
 		|| table->philos[0].time_to_sleep <= 0)
+	{
+		printf("Error: all arguments must be positive integers.\n");
 		return (0);
+	}
 	if (table->ac == 6 && table->philos[0].times_to_eat <= 0)
+	{
+		printf("Error: all arguments must be positive integers.\n");
 		return (0);
+	}
 	return (1);
 }
 
@@ -51,6 +57,11 @@ static void	assign_values(t_table *table)
 int	parse_input(t_table *table)
 {
 	table->number_of_philos = atoi_safe(table->av[1]);
+	if (table->number_of_philos <= 0)
+	{
+		printf("Error: all arguments must be positive integers.\n");
+		return (0);
+	}
 	table->philos = ft_calloc(table->number_of_philos, sizeof(t_philo));
 	if (!table->philos)
 		return (0);

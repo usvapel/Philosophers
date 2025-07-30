@@ -26,7 +26,8 @@ static const char	*g_help_text = BOLD_WHITE
 	"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
 	"│                                                                 │\n"
 	"│ Example: ./philo 5 800 200 200 3                                │\n"
-	"└─────────────────────────────────────────────────────────────────┘\n";
+	"└─────────────────────────────────────────────────────────────────┘\n"
+	RESET;
 
 void	print_help(void)
 {
@@ -41,8 +42,13 @@ int	ft_usleep(size_t milliseconds, t_table *table)
 	while ((get_time(table) - start) < milliseconds)
 	{
 		usleep(500);
+		pthread_mutex_lock(&table->dead_lock);
 		if (table->death == true)
+		{
+			pthread_mutex_unlock(&table->dead_lock);
 			break ;
+		}
+		pthread_mutex_unlock(&table->dead_lock);
 		if (!philo_died(table))
 			break ;
 	}
@@ -66,28 +72,35 @@ int	wait_for_start(t_philo *philo)
 {
 	t_time	now;
 
-	while (philo->table->wait_status == true)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->table->write_lock);
+		if (philo->table->wait_status == false)
+		{
+			pthread_mutex_unlock(&philo->table->write_lock);
+			break ;
+		}
 		if (philo->table->error_status == true)
+		{
+			pthread_mutex_unlock(&philo->table->write_lock);
 			return (0);
+		}
+		pthread_mutex_unlock(&philo->table->write_lock);
 		usleep(10);
 	}
 	while (1)
 	{
+		pthread_mutex_lock(&philo->table->write_lock);
 		gettimeofday(&now, NULL);
 		if (now.tv_sec > philo->table->start.tv_sec
 			|| (now.tv_sec == philo->table->start.tv_sec
 				&& now.tv_usec >= philo->table->start.tv_usec))
+		{
+			pthread_mutex_unlock(&philo->table->write_lock);
 			break ;
+		}
 		usleep(100);
+		pthread_mutex_unlock(&philo->table->write_lock);
 	}
 	return (1);
-}
-
-void	exit_error(t_table *table, char *s)
-{
-	printf("%s\n", s);
-	free(table->philos);
-	free(table);
-	exit(EXIT_FAILURE);
 }
