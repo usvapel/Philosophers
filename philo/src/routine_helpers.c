@@ -52,12 +52,17 @@ void	check_time(t_philo *philo)
 
 int	handle_meals(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->table->meal_lock);
 	if (philo->times_to_eat_validity == true)
 	{
 		philo->times_to_eat--;
 		if (philo->times_to_eat == 0)
+		{
+			pthread_mutex_unlock(&philo->table->meal_lock);
 			return (0);
+		}
 	}
+	pthread_mutex_unlock(&philo->table->meal_lock);
 	return (1);
 }
 

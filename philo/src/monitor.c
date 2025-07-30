@@ -35,12 +35,17 @@ static int	all_philos_have_eaten(t_table *table)
 	int	i;
 
 	i = 0;
+	pthread_mutex_lock(&table->meal_lock);
 	while (i < table->number_of_philos)
 	{
 		if (table->philos[i].times_to_eat != 0 || table->number_of_philos == 1)
+		{
+			pthread_mutex_unlock(&table->meal_lock);
 			return (1);
+		}
 		i++;
 	}
+	pthread_mutex_unlock(&table->meal_lock);
 	return (0);
 }
 
@@ -63,9 +68,14 @@ int	monitor(t_table *table)
 		while (i < table->number_of_philos)
 		{
 			wait_for_start(&table->philos[i]);
+			pthread_mutex_lock(&table->meal_lock);
 			if (table->time_to_eat + table->time_to_sleep > table->time_to_die
 				&& table->philos[i].has_eaten == true)
+			{
+				pthread_mutex_unlock(&table->meal_lock);
 				return (handle_death(table, i));
+			}
+			pthread_mutex_unlock(&table->meal_lock);
 			check_time(&table->philos[i]);
 			pthread_mutex_lock(&table->dead_lock);
 			if (table->philos[i].has_died == true)
