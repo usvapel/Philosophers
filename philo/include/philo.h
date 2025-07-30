@@ -78,7 +78,7 @@ typedef struct s_table
 void					*routine(void *param);
 int						monitor(t_table *table);
 int						parse_input(t_table *table);
-void					setup_philos(t_table *table);
+int						setup_philos(t_table *table);
 int						get_time(t_table *table);
 void					check_time(t_philo *philo);
 void					exit_error(t_table *table, char *s);

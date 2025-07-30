@@ -58,6 +58,29 @@ static int	handle_death(t_table *table, int i)
 	return (exit_simulation(table));
 }
 
+static int	check_death_conditions(t_table *table, int i)
+{
+	pthread_mutex_lock(&table->meal_lock);
+	if (table->time_to_eat + table->time_to_sleep > table->time_to_die
+		&& table->philos[i].has_eaten == true)
+	{
+		pthread_mutex_unlock(&table->meal_lock);
+		return (handle_death(table, i));
+	}
+	pthread_mutex_unlock(&table->meal_lock);
+	check_time(&table->philos[i]);
+	pthread_mutex_lock(&table->dead_lock);
+	if (table->philos[i].has_died == true)
+	{
+		printf("%d %d died\n", table->philos[i].death_time,
+			table->philos[i].number);
+		pthread_mutex_unlock(&table->dead_lock);
+		return (exit_simulation(table));
+	}
+	pthread_mutex_unlock(&table->dead_lock);
+	return (1);
+}
+
 int	monitor(t_table *table)
 {
 	int	i;
@@ -68,24 +91,8 @@ int	monitor(t_table *table)
 		while (i < table->number_of_philos)
 		{
 			wait_for_start(&table->philos[i]);
-			pthread_mutex_lock(&table->meal_lock);
-			if (table->time_to_eat + table->time_to_sleep > table->time_to_die
-				&& table->philos[i].has_eaten == true)
-			{
-				pthread_mutex_unlock(&table->meal_lock);
-				return (handle_death(table, i));
-			}
-			pthread_mutex_unlock(&table->meal_lock);
-			check_time(&table->philos[i]);
-			pthread_mutex_lock(&table->dead_lock);
-			if (table->philos[i].has_died == true)
-			{
-				printf("%d %d died\n", table->philos[i].death_time,
-					table->philos[i].number);
-				pthread_mutex_unlock(&table->dead_lock);
-				return (exit_simulation(table));
-			}
-			pthread_mutex_unlock(&table->dead_lock);
+			if (!check_death_conditions(table, i))
+				return (0);
 			if (table->ac == 6 && !all_philos_have_eaten(table))
 				return (exit_simulation(table));
 			i++;

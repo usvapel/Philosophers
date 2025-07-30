@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 21:59:34 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/30 01:00:10 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/30 22:48:16 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,34 +54,39 @@ static int	create_mutexes(t_table *table)
 	return (0);
 }
 
-void	setup_philos(t_table *table)
+static int	launch_threads(t_table *table, int i)
+{
+	if (pthread_create(&table->philos[i].thread, NULL, routine,
+			(void *)&table->philos[i]))
+	{
+		pthread_mutex_lock(&table->write_lock);
+		table->error_status = true;
+		pthread_mutex_unlock(&table->write_lock);
+		return (0);
+	}
+	return (1);
+}
+
+int	setup_philos(t_table *table)
 {
 	int	i;
 
-	create_mutexes(table);
+	if (!create_mutexes(table))
+		return (0);
 	gettimeofday(&table->start, NULL);
-	table->wait_status = true;
-	table->error_status = false;
-	i = 0;
-	while (i < table->number_of_philos)
+	i = -1;
+	while (++i < table->number_of_philos)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, routine,
-				(void *)&table->philos[i]))
-		{
-			pthread_mutex_lock(&table->write_lock);
-			table->error_status = true;
-			pthread_mutex_unlock(&table->write_lock);
+		if (!launch_threads(table, i))
 			break ;
-		}
-		i++;
 	}
 	pthread_mutex_lock(&table->write_lock);
 	table->wait_status = false;
 	if (table->error_status == false)
 	{
 		pthread_mutex_unlock(&table->write_lock);
-		return ;
+		return (1);
 	}
 	pthread_mutex_unlock(&table->write_lock);
-	handle_failure(table, i);
+	return (handle_failure(table, i));
 }

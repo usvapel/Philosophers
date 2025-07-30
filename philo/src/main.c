@@ -29,7 +29,8 @@ int	main(int ac, char **av)
 			free(table);
 			return (1);
 		}
-		setup_philos(table);
+		if (!setup_philos(table))
+			return (1);
 		return (monitor(table));
 	}
 	else

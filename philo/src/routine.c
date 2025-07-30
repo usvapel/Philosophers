@@ -42,9 +42,7 @@ static int	eating(t_philo *philo)
 	philo->last_meal = get_time(philo->table);
 	pthread_mutex_unlock(&philo->table->dead_lock);
 	philo->mutex_tracker = 2;
-	if (!print_handler(FORK, philo))
-		return (unlock_mutexes(philo));
-	if (!print_handler(EATING, philo))
+	if (!print_handler(FORK, philo) || !print_handler(EATING, philo))
 		return (unlock_mutexes(philo));
 	pthread_mutex_lock(&philo->table->meal_lock);
 	philo->has_eaten = true;

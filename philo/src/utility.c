@@ -68,10 +68,28 @@ int	get_time(t_table *table)
 	return ((int)ms);
 }
 
-int	wait_for_start(t_philo *philo)
+static void	reset_time(t_philo *philo)
 {
 	t_time	now;
 
+	while (1)
+	{
+		pthread_mutex_lock(&philo->table->write_lock);
+		gettimeofday(&now, NULL);
+		if (now.tv_sec > philo->table->start.tv_sec
+			|| (now.tv_sec == philo->table->start.tv_sec
+				&& now.tv_usec >= philo->table->start.tv_usec))
+		{
+			pthread_mutex_unlock(&philo->table->write_lock);
+			break ;
+		}
+		usleep(100);
+		pthread_mutex_unlock(&philo->table->write_lock);
+	}
+}
+
+int	wait_for_start(t_philo *philo)
+{
 	while (1)
 	{
 		pthread_mutex_lock(&philo->table->write_lock);
@@ -88,19 +106,6 @@ int	wait_for_start(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->write_lock);
 		usleep(10);
 	}
-	while (1)
-	{
-		pthread_mutex_lock(&philo->table->write_lock);
-		gettimeofday(&now, NULL);
-		if (now.tv_sec > philo->table->start.tv_sec
-			|| (now.tv_sec == philo->table->start.tv_sec
-				&& now.tv_usec >= philo->table->start.tv_usec))
-		{
-			pthread_mutex_unlock(&philo->table->write_lock);
-			break ;
-		}
-		usleep(100);
-		pthread_mutex_unlock(&philo->table->write_lock);
-	}
+	reset_time(philo);
 	return (1);
 }

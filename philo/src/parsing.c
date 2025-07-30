@@ -34,6 +34,8 @@ static void	assign_values(t_table *table)
 {
 	int	i;
 
+	table->wait_status = true;
+	table->error_status = false;
 	i = 0;
 	while (i < table->number_of_philos)
 	{
