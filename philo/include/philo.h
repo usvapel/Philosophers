@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 11:55:06 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:11:23 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_table
 	bool				death;
 	volatile bool		error_status;
 	volatile bool		wait_status;
-	bool				start_sim;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
