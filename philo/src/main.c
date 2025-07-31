@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static const char	*g_help_text = BOLD_WHITE
+static const char	*g_help_text =
 	"┌─────────────────────────────────────────────────────────────────┐\n"
 	"│                           Philosophers                          │\n"
 	"├─────────────────────────────────────────────────────────────────┤\n"
@@ -26,8 +26,7 @@ static const char	*g_help_text = BOLD_WHITE
 	"│   times_to_eat - [Optional] Times each philosopher must eat     │\n"
 	"│                                                                 │\n"
 	"│ Example: ./philo 5 800 200 200 3                                │\n"
-	"└─────────────────────────────────────────────────────────────────┘\n"
-	RESET;
+	"└─────────────────────────────────────────────────────────────────┘\n";
 
 static int	exit_program(t_table *table, int status)
 {
