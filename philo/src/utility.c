@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 20:56:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 00:36:48 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:17:50 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,12 @@ static void	sync_to_start_time(t_philo *philo)
 
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->write_lock);
 		gettimeofday(&now, NULL);
 		if (now.tv_sec > philo->table->start.tv_sec
 			|| (now.tv_sec == philo->table->start.tv_sec
 				&& now.tv_usec >= philo->table->start.tv_usec))
-		{
-			pthread_mutex_unlock(&philo->table->write_lock);
 			break ;
-		}
 		usleep(100);
-		pthread_mutex_unlock(&philo->table->write_lock);
 	}
 }
 
