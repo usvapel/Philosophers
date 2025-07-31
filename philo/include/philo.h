@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 12:11:23 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:20:02 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <unistd.h>
 # include "colors.h"
 
-# define EATING "%d %d is eating\n"
-# define FORK "%d %d has taken a fork\n"
-# define SLEEP "%d %d is sleeping\n"
-# define THINK "%d %d is thinking\n"
-# define DEATH "%d %d died\n"
+# define EATING RESET "%d %d " LIGHT_GREEN "is eating\n"
+# define FORK RESET  "%d %d " LIGHT_MAGENTA "has taken a fork\n"
+# define SLEEP RESET  "%d %d " LIGHT_BLUE "is sleeping\n"
+# define THINK RESET  "%d %d " LIGHT_YELLOW "is thinking\n"
+# define DEATH RESET  "%d %d " RED "died\n"
 
 typedef pthread_t		t_pthread;
 typedef pthread_mutex_t	t_mutex;
@@ -75,18 +75,22 @@ typedef struct s_table
 }						t_table;
 
 void					*routine(void *param);
+void					*single_philo(t_philo *philo);
 int						monitor(t_table *table);
+
 int						parse_input(t_table *table);
 int						setup_philos(t_table *table);
-void					*single_philo(t_philo *philo);
-int						get_time(t_table *table);
-void					check_time(t_philo *philo);
-void					exit_error(t_table *table, char *s);
+
 int						print_handler(char *type, t_philo *philo);
-int						philo_died(t_table *table);
 int						handle_meals(t_philo *philo);
 int						unlock_mutexes(t_philo *philo);
 int						wait_for_start(t_philo *philo);
+
+int						get_time(t_table *table);
+void					check_time(t_philo *philo);
+int						philo_died(t_table *table);
+
+void					exit_error(t_table *table, char *s);
 int						atoi_safe(const char *nptr);
 void					*ft_calloc(size_t nmemb, size_t size);
 int						ft_usleep(size_t milliseconds, t_table *table);

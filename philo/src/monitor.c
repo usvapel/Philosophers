@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 12:03:11 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:15:47 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	handle_death(t_table *table, int i)
 	table->death = true;
 	pthread_mutex_unlock(&table->dead_lock);
 	pthread_mutex_lock(&table->write_lock);
-	printf("%d %d died\n", table->time_to_die, table->philos[i].number);
+	printf(DEATH, table->time_to_die, table->philos[i].number);
 	pthread_mutex_unlock(&table->write_lock);
 	return (0);
 }
@@ -77,7 +77,7 @@ static int	check_death_conditions(t_table *table, int i)
 	pthread_mutex_lock(&table->dead_lock);
 	if (table->philos[i].has_died == true)
 	{
-		printf("%d %d died\n", table->philos[i].death_time,
+		printf(DEATH, table->philos[i].death_time,
 			table->philos[i].number);
 		pthread_mutex_unlock(&table->dead_lock);
 		return (0);
