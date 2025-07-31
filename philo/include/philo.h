@@ -21,7 +21,6 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include "colors.h"
 
 # define EATING "%d %d is eating\n"
 # define FORK "%d %d has taken a fork\n"
