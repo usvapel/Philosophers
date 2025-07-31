@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 20:53:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 12:20:02 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:34:26 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <unistd.h>
 # include "colors.h"
 
-# define EATING RESET "%d %d " LIGHT_GREEN "is eating\n"
-# define FORK RESET  "%d %d " LIGHT_MAGENTA "has taken a fork\n"
-# define SLEEP RESET  "%d %d " LIGHT_BLUE "is sleeping\n"
-# define THINK RESET  "%d %d " LIGHT_YELLOW "is thinking\n"
-# define DEATH RESET  "%d %d " RED "died\n"
+# define EATING "%d %d is eating\n"
+# define FORK "%d %d has taken a fork\n"
+# define SLEEP "%d %d is sleeping\n"
+# define THINK "%d %d is thinking\n"
+# define DEATH "%d %d died\n"
 
 typedef pthread_t		t_pthread;
 typedef pthread_mutex_t	t_mutex;

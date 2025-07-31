@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 20:56:48 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 11:17:50 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:41:30 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_time(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->dead_lock);
-	if (get_time(philo->table) - philo->last_meal > philo->time_to_die)
+	if (get_time(philo->table) - philo->last_meal >= philo->time_to_die)
 	{
 		philo->death_time = get_time(philo->table);
 		philo->has_died = true;
