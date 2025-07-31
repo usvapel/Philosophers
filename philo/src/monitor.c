@@ -6,7 +6,7 @@
 /*   By: jpelline <jpelline@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:42:43 by jpelline          #+#    #+#             */
-/*   Updated: 2025/07/31 00:30:10 by jpelline         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:03:11 by jpelline         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@ static int	exit_simulation(t_table *table)
 
 	i = 0;
 	while (i < table->number_of_philos)
-		pthread_join(table->philos[i++].thread, NULL);
+	{
+		pthread_join(table->philos[i].thread, NULL);
+		i++;
+	}
 	i = 0;
 	while (i < table->number_of_philos)
 		pthread_mutex_destroy(&table->philos[i++].fork);
 	pthread_mutex_destroy(&table->write_lock);
 	pthread_mutex_destroy(&table->meal_lock);
 	pthread_mutex_destroy(&table->dead_lock);
-	free(table->philos);
-	free(table);
 	return (0);
 }
 
@@ -59,7 +60,7 @@ static int	handle_death(t_table *table, int i)
 	pthread_mutex_lock(&table->write_lock);
 	printf("%d %d died\n", table->time_to_die, table->philos[i].number);
 	pthread_mutex_unlock(&table->write_lock);
-	return (exit_simulation(table));
+	return (0);
 }
 
 static int	check_death_conditions(t_table *table, int i)
@@ -79,7 +80,7 @@ static int	check_death_conditions(t_table *table, int i)
 		printf("%d %d died\n", table->philos[i].death_time,
 			table->philos[i].number);
 		pthread_mutex_unlock(&table->dead_lock);
-		return (exit_simulation(table));
+		return (0);
 	}
 	pthread_mutex_unlock(&table->dead_lock);
 	return (1);
@@ -96,7 +97,7 @@ int	monitor(t_table *table)
 		{
 			wait_for_start(&table->philos[i]);
 			if (!check_death_conditions(table, i))
-				return (0);
+				return (exit_simulation(table));
 			if (table->ac == 6 && !all_philos_have_eaten(table))
 				return (exit_simulation(table));
 			i++;
