@@ -12,8 +12,8 @@
 
 #include "philo.h"
 
-static const char	*g_help_text =
-	"┌─────────────────────────────────────────────────────────────────┐\n"
+static const char	*g_help_text
+	="┌─────────────────────────────────────────────────────────────────┐\n"
 	"│                           Philosophers                          │\n"
 	"├─────────────────────────────────────────────────────────────────┤\n"
 	"│ Usage: ./philo <philos> <die> <eat> <sleep> [times_to_eat]      │\n"
