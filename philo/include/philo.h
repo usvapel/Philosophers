@@ -59,8 +59,8 @@ typedef struct s_table
 {
 	int					number_of_philos;
 	bool				death;
-	volatile bool		error_status;
-	volatile bool		wait_status;
+	bool				error_status;
+	bool				wait_status;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
