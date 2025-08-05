@@ -18,10 +18,7 @@ static int	exit_simulation(t_table *table)
 
 	i = 0;
 	while (i < table->number_of_philos)
-	{
-		pthread_join(table->philos[i].thread, NULL);
-		i++;
-	}
+		pthread_join(table->philos[i++].thread, NULL);
 	i = 0;
 	while (i < table->number_of_philos)
 		pthread_mutex_destroy(&table->philos[i++].fork);
