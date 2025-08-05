@@ -18,8 +18,10 @@ static int	handle_failure(t_table *table, int i)
 	{
 		i--;
 		pthread_join(table->philos[i].thread, NULL);
-		pthread_mutex_destroy(&table->philos[i].fork);
 	}
+	i = 0;
+	while (i < table->number_of_philos)
+		pthread_mutex_destroy(&table->philos[i++].fork);
 	pthread_mutex_destroy(&table->write_lock);
 	pthread_mutex_destroy(&table->meal_lock);
 	pthread_mutex_destroy(&table->dead_lock);
