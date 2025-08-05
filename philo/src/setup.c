@@ -14,15 +14,15 @@
 
 static int	handle_failure(t_table *table, int i)
 {
-	pthread_mutex_destroy(&table->write_lock);
-	pthread_mutex_destroy(&table->meal_lock);
-	pthread_mutex_destroy(&table->dead_lock);
 	while (i)
 	{
 		i--;
 		pthread_join(table->philos[i].thread, NULL);
 		pthread_mutex_destroy(&table->philos[i].fork);
 	}
+	pthread_mutex_destroy(&table->write_lock);
+	pthread_mutex_destroy(&table->meal_lock);
+	pthread_mutex_destroy(&table->dead_lock);
 	return (0);
 }
 
