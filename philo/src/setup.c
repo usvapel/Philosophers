@@ -15,10 +15,7 @@
 static int	handle_failure(t_table *table, int i)
 {
 	while (i)
-	{
-		i--;
-		pthread_join(table->philos[i].thread, NULL);
-	}
+		pthread_join(table->philos[--i].thread, NULL);
 	i = 0;
 	while (i < table->number_of_philos)
 		pthread_mutex_destroy(&table->philos[i++].fork);
