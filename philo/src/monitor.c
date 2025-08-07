@@ -36,7 +36,7 @@ static int	all_philos_have_eaten(t_table *table)
 	pthread_mutex_lock(&table->meal_lock);
 	while (i < table->number_of_philos)
 	{
-		if (table->philos[i].times_to_eat != 0 || table->number_of_philos == 1)
+		if (table->philos[i].times_to_eat != 0)
 		{
 			pthread_mutex_unlock(&table->meal_lock);
 			return (1);
